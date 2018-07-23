@@ -14,6 +14,7 @@ public class AmazonPurchase
     String seller = "";
     BigDecimal listPrice;
     BigDecimal purchase;
+    Integer quantity;
     String shippingAddress = "";
     BigDecimal tax;
     BigDecimal itemTotal;
@@ -127,5 +128,15 @@ public class AmazonPurchase
     public void setItemTotal(BigDecimal itemTotal)
     {
         this.itemTotal = itemTotal;
+    }
+
+    public Integer getQuantity()
+    {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity)
+    {
+        this.quantity = quantity;
     }
 }
