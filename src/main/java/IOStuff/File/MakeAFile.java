@@ -18,13 +18,10 @@ public class MakeAFile
         File file = new File("C:\\IdeaProjects\\JavaFeatureExplore\\src\\main\\java\\IOStuff\\File\\amazon.csv");
         try (BufferedReader in = new BufferedReader(new FileReader(file)))
         {
-            String line = "";
+            String line;
             in.readLine();
             while ((line = in.readLine()) != null)
-            {
-                System.out.println(line);
                 purchaseList.add(createItem(line));
-            }
         }
         catch (IOException e)
         {
@@ -100,7 +97,6 @@ public class MakeAFile
 
     public static String[] getCSVLineItem(String line)
     {
-        System.out.println(line);
         String[] parts = new String[35];
         char[] chars = line.toCharArray();
 
