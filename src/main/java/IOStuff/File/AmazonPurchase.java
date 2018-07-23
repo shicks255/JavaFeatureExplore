@@ -1,3 +1,27 @@
+/**
+ *
+ * SQL to make the Purchase table in database Amazon using MySQL
+ *
+ * create table purchases(
+ *   ORDER_ID varchar(100),
+ *   ORDER_DATE date,
+ *   TITLE varchar(1000),
+ *   CATEGORY varchar(225),
+ *   ITEM_CONDITION varchar(50),
+ *   SELLER varchar(225),
+ *   LIST_PRICE decimal(10,2),
+ *   PURCHASE decimal(10,2),
+ *   QUANTITY int,
+ *   SHIPPING_ADDRESS varchar(225),
+ *   TAX decimal(10,2),
+ *   ITEM_TOTAL decimal(10,2),
+ *   PRIMARY KEY(ORDER_ID)
+ * );
+ *
+ */
+
+
+
 package IOStuff.File;
 
 import java.math.BigDecimal;
