@@ -4,39 +4,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MakeAFile
 {
-
     public static void main(String[] args)
     {
-
-        File file = new File("C:\\IdeaProjects\\JavaFeatureExplore\\src\\main\\java\\IOStuff\\File\\amazon.csv");
-
-        Map<Integer, Method> columns = new HashMap<>();
-//        Class clazz = Class.forName("AmazonPurchase");
-//        columns.put(0, clazz.getMethod("getOrderDate", AmazonPurchase.class));
-//        columns.put(1, clazz.getMethod("getOrderId", AmazonPurchase.class));
-//        columns.put(2, clazz.getMethod("getTitle", AmazonPurchase.class));
-//        columns.put(3, clazz.getMethod("getCategory", AmazonPurchase.class));
-//        columns.put(8, clazz.getMethod("getCondition", AmazonPurchase.class));
-//        columns.put(9, clazz.getMethod("getSeller", AmazonPurchase.class));
-//        columns.put(11, clazz.getMethod("getListPrice", AmazonPurchase.class));
-//        columns.put(12, clazz.getMethod("getPurchase", AmazonPurchase.class));
-//        columns.put(13, clazz.getMethod("getQuantity", AmazonPurchase.class));
-//        columns.put(20, clazz.getMethod("getShippingAddress", AmazonPurchase.class));
-//        columns.put(28, clazz.getMethod("getTax", AmazonPurchase.class));
-//        columns.put(29, clazz.getMethod("getItemTotal", AmazonPurchase.class));
-
         List<AmazonPurchase> purchaseList = new ArrayList<>();
 
+        File file = new File("C:\\IdeaProjects\\JavaFeatureExplore\\src\\main\\java\\IOStuff\\File\\amazon.csv");
         try (BufferedReader in = new BufferedReader(new FileReader(file)))
         {
             String line = "";
@@ -46,7 +25,6 @@ public class MakeAFile
                 System.out.println(line);
                 purchaseList.add(createItem(line));
             }
-
         }
         catch (IOException e)
         {
@@ -55,7 +33,6 @@ public class MakeAFile
 
         System.out.println(file.isFile());
     }
-
 
     public static AmazonPurchase createItem(String line)
     {
@@ -67,8 +44,8 @@ public class MakeAFile
         AmazonPurchase purchase = new AmazonPurchase();
 
         LocalDate ld = convertStringToLocalDate(parts[0]);
-
         purchase.setOrderDate(ld);
+
         purchase.setOrderId(parts[1]);
         purchase.setTitle(parts[2]);
         purchase.setCategory(parts[3]);
