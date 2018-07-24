@@ -40,6 +40,10 @@ public class AmazonPurchase
     @Convert(converter = LocalDateAttributeConverter.class)
     LocalDate orderDate;
     @Column
+    Integer year;
+    @Column
+    Integer month;
+    @Column
     String title = "";
     @Column
     String category = "";
@@ -189,5 +193,25 @@ public class AmazonPurchase
     public void setObjectId(Integer objectId)
     {
         this.objectId = objectId;
+    }
+
+    public Integer getYear()
+    {
+        return year;
+    }
+
+    public void setYear(Integer year)
+    {
+        this.year = year;
+    }
+
+    public Integer getMonth()
+    {
+        return month;
+    }
+
+    public void setMonth(Integer month)
+    {
+        this.month = month;
     }
 }

@@ -53,7 +53,7 @@ public class MakeAFile
             System.out.println(e.getMessage());
         }
         Connection conn = DriverManager.getConnection(url,
-                "shicks", "");
+                "shicks", "ashley");
 
         for (AmazonPurchase purchase : purchases)
         {
@@ -66,7 +66,7 @@ public class MakeAFile
                 title = purchase.title.replace("'", "");
 
             Statement statement = conn.createStatement();
-            statement.execute("INSERT INTO purchases (ORDER_ID, ORDER_DATE, TITLE, CATEGORY, ITEM_CONDITION, SELLER, LIST_PRICE, PURCHASE, QUANTITY, SHIPPING_ADDRESS, TAX, ITEM_TOTAL) values (\'" + purchase.orderId + "\', \'" + purchase.orderDate + "\', \'" + title +"\', \'" +
+            statement.execute("INSERT INTO purchases (ORDER_ID, ORDER_DATE, YEAR, MONTH, TITLE, CATEGORY, ITEM_CONDITION, SELLER, LIST_PRICE, PURCHASE, QUANTITY, SHIPPING_ADDRESS, TAX, ITEM_TOTAL) values (\'" + purchase.orderId + "\', \'" + purchase.orderDate + "\', \'" + purchase.year + "\', \'" + purchase.month + "\', \'" + title +"\', \'" +
             purchase.category + "\', \'" + purchase.condition + "\', \'" + seller + "\', \'" +
             purchase.listPrice + "\', \'" + purchase.purchase + "\', \'" + purchase.quantity + "\', \'" +
             purchase.shippingAddress + "\', \'" + purchase.tax + "\', \'" + purchase.itemTotal + "\')");
@@ -85,6 +85,8 @@ public class MakeAFile
 
         LocalDate ld = convertStringToLocalDate(parts[0]);
         purchase.setOrderDate(ld);
+        purchase.setMonth(ld.getMonthValue());
+        purchase.setYear(ld.getYear());
 
         purchase.setOrderId(parts[1]);
         purchase.setTitle(parts[2]);
