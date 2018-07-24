@@ -20,27 +20,44 @@
  *
  */
 
-
-
 package IOStuff.File;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
 public class AmazonPurchase
 {
-    String orderId = "";
+    @Id
+    Integer objectId;
 
+    @Column
+    String orderId = "";
+    @Convert(converter = LocalDateAttributeConverter.class)
     LocalDate orderDate;
+    @Column
     String title = "";
+    @Column
     String category = "";
+    @Column
     String condition = "";
+    @Column
     String seller = "";
+    @Column
     BigDecimal listPrice;
+    @Column
     BigDecimal purchase;
+    @Column
     Integer quantity;
+    @Column
     String shippingAddress = "";
+    @Column
     BigDecimal tax;
+    @Column
     BigDecimal itemTotal;
 
 
@@ -162,5 +179,15 @@ public class AmazonPurchase
     public void setQuantity(Integer quantity)
     {
         this.quantity = quantity;
+    }
+
+    public Integer getObjectId()
+    {
+        return objectId;
+    }
+
+    public void setObjectId(Integer objectId)
+    {
+        this.objectId = objectId;
     }
 }

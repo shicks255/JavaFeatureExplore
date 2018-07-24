@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,49 @@ public class MakeAFile
             System.out.println(e.getMessage());
         }
 
-        System.out.println(file.isFile());
+        try
+        {
+            purchaseList.removeIf(x -> x == null);
+            createDatabaseItems(purchaseList);
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createDatabaseItems(List<AmazonPurchase> purchases) throws SQLException
+    {
+        String url = "jdbc:mysql://192.168.1.14:8888/Amazon";
+
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        Connection conn = DriverManager.getConnection(url,
+                "shicks", "");
+
+        for (AmazonPurchase purchase : purchases)
+        {
+            String seller = "";
+            if (purchase.seller != null)
+                seller = purchase.seller.replace("'", "");
+
+            String title = "";
+            if (purchase.title != null)
+                title = purchase.title.replace("'", "");
+
+            Statement statement = conn.createStatement();
+            statement.execute("INSERT INTO purchases (ORDER_ID, ORDER_DATE, TITLE, CATEGORY, ITEM_CONDITION, SELLER, LIST_PRICE, PURCHASE, QUANTITY, SHIPPING_ADDRESS, TAX, ITEM_TOTAL) values (\'" + purchase.orderId + "\', \'" + purchase.orderDate + "\', \'" + title +"\', \'" +
+            purchase.category + "\', \'" + purchase.condition + "\', \'" + seller + "\', \'" +
+            purchase.listPrice + "\', \'" + purchase.purchase + "\', \'" + purchase.quantity + "\', \'" +
+            purchase.shippingAddress + "\', \'" + purchase.tax + "\', \'" + purchase.itemTotal + "\')");
+        }
+
     }
 
     public static AmazonPurchase createItem(String line)
