@@ -1,11 +1,15 @@
 package IOStuff.File;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +20,8 @@ public class MakeAFile
     {
         List<AmazonPurchase> purchaseList = new ArrayList<>();
 
-        File file = new File("C:\\IdeaProjects\\JavaFeatureExplore\\src\\main\\java\\IOStuff\\File\\amazon.csv");
-        try (BufferedReader in = new BufferedReader(new FileReader(file)))
+        Path file = Paths.get("c:", "IdeaProjects", "JavaFeatureExplore", "src", "main", "java", "IOStuff", "File", "amazon.csv");
+        try (BufferedReader in = new BufferedReader(new FileReader(file.toFile())))
         {
             String line;
             in.readLine();
