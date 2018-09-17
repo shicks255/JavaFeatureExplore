@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,9 @@ public class MakeAFile
         }
         Connection conn = DriverManager.getConnection(url,
                 "shicks", "ashley");
+
+        Statement dropStatement = conn.createStatement();
+        dropStatement.execute("truncate table purchases");
 
         for (AmazonPurchase purchase : purchases)
         {
@@ -132,14 +136,8 @@ public class MakeAFile
     {
         if (date.length() > 0)
         {
-            String[] parts = date.split(",");
-
-            int month = Integer.valueOf(parts[0]);
-            int day = Integer.valueOf(parts[1]);
-            int year = Integer.valueOf(parts[2]);
-
-            LocalDate ld = LocalDate.of(year, month, day);
-            return ld;
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yy");
+            return LocalDate.parse(date, dtf);
         }
         return null;
     }
