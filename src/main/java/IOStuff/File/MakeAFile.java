@@ -48,6 +48,7 @@ public class MakeAFile
     public static void createDatabaseItems(List<AmazonPurchase> purchases) throws SQLException
     {
         String url = "jdbc:mysql://192.168.1.14:8888/Amazon";
+//        String url2 = "jdbc:postgres://192.168.1.14:8888/Amazon";
 
         try
         {
@@ -62,7 +63,9 @@ public class MakeAFile
 
         Statement dropStatement = conn.createStatement();
         dropStatement.execute("truncate table purchases");
+        System.out.println("Dropping table 'PURCHASES' from Amazon database");
 
+        int counter = 0;
         for (AmazonPurchase purchase : purchases)
         {
             String seller = "";
@@ -78,8 +81,10 @@ public class MakeAFile
             purchase.category + "\', \'" + purchase.condition + "\', \'" + seller + "\', \'" +
             purchase.listPrice + "\', \'" + purchase.purchase + "\', \'" + purchase.quantity + "\', \'" +
             purchase.shippingAddress + "\', \'" + purchase.tax + "\', \'" + purchase.itemTotal + "\')");
+            counter++;
         }
 
+        System.out.println("Finished adding items " + counter + " items");
     }
 
     public static AmazonPurchase createItem(String line)
