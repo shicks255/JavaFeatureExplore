@@ -19,8 +19,8 @@ public class FunctionalPractice
         database.add(new Person("Alex", 30));
 
         doDatabaseCall()
-                .getData(p -> p.age >= 30)
-                .process(person -> person.forEach(p -> System.out.println(p)));
+                .getData(p -> p.age >= 30) // abstraction for making query
+                .process(person -> person.forEach(p -> System.out.println(p))); //abstraction for doing something with results
     }
 
     public static DatabaseProcessor<Person> doDatabaseCall() {
