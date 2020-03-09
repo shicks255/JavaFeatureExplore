@@ -3,6 +3,7 @@ package ModernJava;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ChainingInterfaces {
 
@@ -15,12 +16,12 @@ public class ChainingInterfaces {
         Double nextYear = getBonusCalculator()
                 .startAction(124_080.00)
                 .midAction(functions)
-                .endAction();
+                .get();
 
         Double thisYearBonus = getBonusCalculator()
                 .startAction(56_000.00)
                 .midAction(functions)
-                .endAction();
+                .get();
 
         System.out.println(nextYear);
         System.out.println(thisYearBonus);
@@ -45,7 +46,7 @@ public class ChainingInterfaces {
 
     @FunctionalInterface
     public interface MiddleAction {
-        TerminalAction midAction(List<Function<Double, Double>> functions);
+        Supplier<Double> midAction(List<Function<Double, Double>> functions);
     }
 
     @FunctionalInterface
