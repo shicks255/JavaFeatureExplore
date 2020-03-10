@@ -10,7 +10,7 @@ public class ChainingInterfaces {
     public static void main(String[] args) {
         List<Function<Double, Double>> functions = new ArrayList<>();
         functions.add(x -> x * .12);
-        functions.add(x -> x * .93);
+        functions.add(x -> x * .936);
 
 
         Double nextYear = getBonusCalculator()
@@ -19,7 +19,7 @@ public class ChainingInterfaces {
                 .get();
 
         Double thisYearBonus = getBonusCalculator()
-                .startAction(56_000.00)
+                .startAction(51_288.00)
                 .midAction(functions)
                 .get();
 
