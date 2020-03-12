@@ -18,8 +18,8 @@ public class ChatServer
     private static int PORT;
     private static String serverName;
 
-    private static HashSet<String> names = new HashSet<String>();
-    private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
+    private static HashSet<String> names = new HashSet<>();
+    private static HashSet<PrintWriter> writers = new HashSet<>();
 
     public ChatServer()
     {

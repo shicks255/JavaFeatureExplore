@@ -1,7 +1,6 @@
 package ModernJava;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
 
@@ -54,6 +53,7 @@ public class StreamCollecting {
         return byage;
     }
 
+    //groupingBy and flatMapping()
     public static Map<Integer, List<String>> groupByAgeAndFlatMapLetters(List<Person> people) {
         Map<Integer, List<String>> byage = people.stream()
                 .collect(groupingBy(Person::getAge,
@@ -63,6 +63,7 @@ public class StreamCollecting {
         return byage;
     }
 
+    //groupingBy and groupingBy()
     public static Map<Integer, Map<Integer, List<Person>>> groupByAgeThenLetterCount(List<Person> people) {
         Map<Integer, Map<Integer, List<Person>>> byage = people.stream()
                 .collect(groupingBy(Person::getAge,
@@ -72,6 +73,7 @@ public class StreamCollecting {
         return byage;
     }
 
+    //summarizing
     public static Map<Integer, IntSummaryStatistics> summarizing(List<Person> people) {
         Map<Integer, IntSummaryStatistics> stats = people.stream()
                 .collect(groupingBy(Person::getAge,
