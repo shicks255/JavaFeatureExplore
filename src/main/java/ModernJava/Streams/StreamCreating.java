@@ -1,4 +1,4 @@
-package ModernJava;
+package ModernJava.Streams;
 
 import java.util.List;
 import java.util.Map;

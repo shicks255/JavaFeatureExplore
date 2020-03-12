@@ -10,10 +10,10 @@ public final class PersonDatabase {
 
     private PersonDatabase() {
 
-        database.add(new Person("Eric", 32));
-        database.add(new Person("Rini", 30));
-        database.add(new Person("Alex", 30));
-        database.add(new Person("Steve", 30));
+        database.add(new Person("Eric", 32, List.of("Computers", "Logic")));
+        database.add(new Person("Rini", 30, List.of("Business", "Fraud")));
+        database.add(new Person("Alex", 30, List.of("Smoking", "Gaming")));
+        database.add(new Person("Steve", 30, List.of("Music", "Logic")));
     }
 
     public static PersonDatabase getInstance() {
@@ -23,40 +23,8 @@ public final class PersonDatabase {
         return m_personDatabase;
     }
 
-
     public List<Person> getItems() {
         return database;
     }
-
-
 }
-class Person {
-    String name = "";
-    int age;
-    public Person(String name, int age){
-        this.name = name;
-        this.age = age;
-    }
 
-    @Override
-    public String toString() {
-        return "Person - " + name + " is " + age + " years old";
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-}

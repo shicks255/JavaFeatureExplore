@@ -1,4 +1,7 @@
-package ModernJava;
+package ModernJava.Streams;
+
+import ModernJava.Person;
+import ModernJava.PersonDatabase;
 
 import java.util.*;
 
@@ -38,7 +41,7 @@ public class StreamCollecting {
     //groupingBy and filtering()
     public static Map<Integer, List<Person>> groupByAgeAndFiltering(List<Person> people) {
         Map<Integer, List<Person>> byage = people.stream()
-                .collect(groupingBy(Person::getAge, filtering(x -> x.age > 30, toList())));
+                .collect(groupingBy(Person::getAge, filtering(x -> x.getAge() > 30, toList())));
 
         System.out.println(byage);
         return byage;
