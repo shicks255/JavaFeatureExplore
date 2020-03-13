@@ -102,16 +102,25 @@ public class StreamCollecting {
         System.out.println("Took " + (System.currentTimeMillis() - currentTime));
 
         currentTime = System.currentTimeMillis();
-        Map<String, List<String>> skillsByPeopleParrelelize = people.parallelStream()
+        Map<String, List<String>> skillsByPeopleParallel = people.parallelStream()
                 .collect(myCustomCollector());
-        System.out.println(skillsByPeopleParrelelize);
-        System.out.println("Took paraliel " + (System.currentTimeMillis() - currentTime));
+        System.out.println(skillsByPeopleParallel);
+        System.out.println("Took parallel " + (System.currentTimeMillis() - currentTime));
 
         return skillsByPeople;
     }
 
     private static Collector<Person, Map<String, List<String>>, Map<String, List<String>>> myCustomCollector() {
         return new Collector<>() {
+            private List<String> combineAndReturn(List<String> one, List<String> two) {
+                one.addAll(two);
+                return one;
+            }
+
+            private List<String> initialize(Person person) {
+                return new ArrayList<>(Arrays.asList(person.getName()));
+            }
+
             @Override
             public Supplier<Map<String, List<String>>> supplier() {
                 return () -> new ConcurrentHashMap<>();
@@ -119,22 +128,8 @@ public class StreamCollecting {
 
             @Override
             public BiConsumer<Map<String, List<String>>, Person> accumulator() {
-                return (map, person) -> {
-                    person.getSkills().forEach(x -> {
-                        List<String> people = map.merge(x, new ArrayList<>(Arrays.asList(person.getName())), (old,newValue) -> {
-                            old.addAll(newValue);
-                            return old;
-                        });
-                    });
-
-//                    person.getSkills().forEach(x -> map.compute(x, (y, existingPeeps) -> {
-//                        if (existingPeeps == null)
-//                            existingPeeps = new ArrayList<>();
-//
-//                        existingPeeps.add(person.getName());
-//                        return existingPeeps;
-//                    }));
-                };
+                return (accumulatingMap, person) -> person.getSkills()
+                        .forEach(skill -> accumulatingMap.merge(skill, initialize(person), this::combineAndReturn));
             }
 
             @Override
@@ -147,7 +142,6 @@ public class StreamCollecting {
                     return m1;
                 };
             }
-
 
             @Override
             public Function<Map<String, List<String>>, Map<String, List<String>>> finisher() {
