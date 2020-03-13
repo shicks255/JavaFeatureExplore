@@ -13,7 +13,7 @@ public final class PersonDatabase {
         database.add(new Person("Eric", 32, List.of("Computers", "Logic")));
         database.add(new Person("Rini", 30, List.of("Business", "Fraud")));
         database.add(new Person("Alex", 30, List.of("Smoking", "Gaming")));
-        database.add(new Person("Steve", 30, List.of("Music", "Logic")));
+        database.add(new Person("Steven", 30, List.of("Music", "Logic", "Computers")));
     }
 
     public static PersonDatabase getInstance() {

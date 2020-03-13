@@ -4,6 +4,12 @@ import ModernJava.Person;
 import ModernJava.PersonDatabase;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 import static java.util.stream.Collectors.*;
 
@@ -20,6 +26,7 @@ public class StreamCollecting {
         Map<Integer, List<String>> personByAgeWithFlatMap = groupByAgeAndFlatMapLetters(people);
         Map<Integer, Map<Integer, List<Person>>> personByDoubleGrouping = groupByAgeThenLetterCount(people);
         Map<Integer, IntSummaryStatistics> nameCountbyAgeStats = summarizing(people);
+        Map<String, List<String>> skillsByPerson = skillsByPersonList(people);
     }
 
     public static Set<Person> collectToset(List<Person> people) {
@@ -84,5 +91,73 @@ public class StreamCollecting {
 
         System.out.println(stats);
         return stats;
+    }
+
+    //trying a custom Collector
+    public static Map<String, List<String>> skillsByPersonList(List<Person> people) {
+        long currentTime = System.currentTimeMillis();
+        Map<String, List<String>> skillsByPeople = people.stream()
+                .collect(myCustomCollector());
+        System.out.println(skillsByPeople);
+        System.out.println("Took " + (System.currentTimeMillis() - currentTime));
+
+        currentTime = System.currentTimeMillis();
+        Map<String, List<String>> skillsByPeopleParrelelize = people.parallelStream()
+                .collect(myCustomCollector());
+        System.out.println(skillsByPeopleParrelelize);
+        System.out.println("Took paraliel " + (System.currentTimeMillis() - currentTime));
+
+        return skillsByPeople;
+    }
+
+    private static Collector<Person, Map<String, List<String>>, Map<String, List<String>>> myCustomCollector() {
+        return new Collector<>() {
+            @Override
+            public Supplier<Map<String, List<String>>> supplier() {
+                return () -> new ConcurrentHashMap<>();
+            }
+
+            @Override
+            public BiConsumer<Map<String, List<String>>, Person> accumulator() {
+                return (map, person) -> {
+                    person.getSkills().forEach(x -> {
+                        List<String> people = map.merge(x, new ArrayList<>(Arrays.asList(person.getName())), (old,newValue) -> {
+                            old.addAll(newValue);
+                            return old;
+                        });
+                    });
+
+//                    person.getSkills().forEach(x -> map.compute(x, (y, existingPeeps) -> {
+//                        if (existingPeeps == null)
+//                            existingPeeps = new ArrayList<>();
+//
+//                        existingPeeps.add(person.getName());
+//                        return existingPeeps;
+//                    }));
+                };
+            }
+
+            @Override
+            public BinaryOperator<Map<String, List<String>>> combiner() {
+                return (m1,m2) -> {
+                    m2.entrySet().forEach(es -> {
+                        m2.getOrDefault(es.getKey(), new ArrayList<>()).addAll(es.getValue());
+                    });
+
+                    return m1;
+                };
+            }
+
+
+            @Override
+            public Function<Map<String, List<String>>, Map<String, List<String>>> finisher() {
+                return Function.identity();
+            }
+
+            @Override
+            public Set<Characteristics> characteristics() {
+                return Set.of(Characteristics.UNORDERED, Characteristics.IDENTITY_FINISH, Characteristics.CONCURRENT);
+            }
+        };
     }
 }

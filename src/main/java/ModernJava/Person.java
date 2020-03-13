@@ -36,6 +36,11 @@ public class Person {
     }
 
     public List<String> getSkills() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+
+        }
         return skills;
     }
 
